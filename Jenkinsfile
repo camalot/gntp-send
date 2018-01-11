@@ -55,14 +55,16 @@ node ("linux && cmake") {
 					// }
 				}
 				stage ("deploy") {
-						// sh script: "${WORKSPACE}/.deploy/deploy.sh -n '${env.CI_PROJECT_NAME}' -v '${env.CI_BUILD_VERSION}'"
+					// sh script: "${WORKSPACE}/.deploy/deploy.sh -n '${env.CI_PROJECT_NAME}' -v '${env.CI_BUILD_VERSION}'"
 				}
 				stage ('publish') {
 					// this only will publish if the incominh branch IS develop
 					Branch.publish_to_master(this)
 					Pipeline.publish_buildInfo(this)
-					Pipeline.upload_artifact(this, "${WORKSPACE}/dist/${PROJECT_NAME}-${BUILD_VERSION}.zip", 
-						"generic-local/${PROJECT_NAME}/${BUILD_VERSION}/${PROJECT_NAME}-${BUILD_VERSION}.zip", null)
+					Pipeline.upload_artifact(this, "${WORKSPACE}/dist/${env.CI_PROJECT_NAME}-${env.CI_BUILD_VERSION}.zip", 
+						"generic-local/${env.CI_PROJECT_NAME}/${env.CI_BUILD_VERSION}/${env.CI_PROJECT_NAME}-${env.CI_BUILD_VERSION}.zip", null)
+					Pipeline.publish_github(this, Accounts.GIT_ORGANIZATION, env.CI_PROJECT_NAME, env.CI_BUILD_VERSION, 
+						"${WORKSPACE}/dist/${env.CI_PROJECT_NAME}-${env.CI_BUILD_VERSION}.zip", false, false)
 				}
 			} catch(err) {
 				currentBuild.result = "FAILURE"
