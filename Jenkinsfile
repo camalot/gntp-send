@@ -41,6 +41,7 @@ node ("linux && cmake") {
 			try {
 				stage ("install" ) {
 					deleteDir()
+					sh script: "git config --global user.email && git config --global user.name"
 					Branch.checkout(this, env.CI_PROJECT_NAME)
 					Pipeline.install(this)
 				}
