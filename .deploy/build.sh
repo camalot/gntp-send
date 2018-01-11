@@ -48,7 +48,7 @@ mkdir -p "${WORKSPACE}/root/usr/local/bin"
 mkdir -p "${WORKSPACE}/root/usr/lib";
 mv "${WORKSPACE}/gntp-send" "${WORKSPACE}/root/usr/local/bin/";
 mv "${WORKSPACE}/libgrowl.so" "${WORKSPACE}/root/usr/lib/";
-cp "${WORKSPACE}/include" "${WORKSPACE}/root/usr/";
+cp -r "${WORKSPACE}/include" "${WORKSPACE}/root/usr/";
 
 mkdir -p "${WORKSPACE}/dist/";
 pushd . || exit 9;
